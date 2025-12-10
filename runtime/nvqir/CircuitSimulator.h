@@ -1263,7 +1263,8 @@ public:
   /// @brief Set the execution context
   void setExecutionContext(cudaq::ExecutionContext *context) override {
     executionContext = context;
-    currentSamplingMode = cudaq::details::getSamplingMode(context->name);
+    if (cudaq::details::isSamplingContext(executionContext))
+      currentSamplingMode = cudaq::details::getSamplingMode(context->name);
     executionContext->canHandleObserve = canHandleObserve();
     currentCircuitName = context->kernelName;
     CUDAQ_INFO("Setting current circuit name to {}", currentCircuitName);
